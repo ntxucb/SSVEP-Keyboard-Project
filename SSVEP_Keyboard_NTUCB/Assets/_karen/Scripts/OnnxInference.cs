@@ -6,6 +6,9 @@ using Microsoft.ML.OnnxRuntime.Tensors;
 using System.Linq;
 using System;
 
+
+
+
 public class OnnxInference : MonoBehaviour
 {
     Tensor<float> t1, t2;
@@ -18,9 +21,30 @@ public class OnnxInference : MonoBehaviour
     float[] sourceData = { width, height };
     int[] dimensions = { 1, 2 };
 
+
+    [System.Serializable]
+    public struct Prediction
+    {
+        public List<string> predicted;
+        public void SetPrediction(Tensor<string> predict){
+           // predicted=t.AsFloats();
+          //  predictedValue = System.Array.IndexOf(predicted,predicted.Max());
+            foreach(var t in predict){
+                print("pred "+t);
+                predicted.Add(t);
+            }
+        }
+    }
+
+
+
+    public Prediction predicti;
+
+
+
     private float[,] matriz;
     //var denseTensor = new DenseTensor<int>(new[] { 3, 5 });
-    void Start()
+    async void Start()
     {
        // t1= new DenseTensor<float>(new[] { 4, 8 });
         
@@ -115,9 +139,10 @@ public class OnnxInference : MonoBehaviour
         {
             using(var results = session.Run(inputs1)){
                 foreach(var r in results){
-                    print("output name"+r.Name);
-                    string prediction=r.AsTensor<string>().GetValue(0);
-                    print("prediciton"+prediction);
+                    //.GetValue(0)
+                    Tensor<string> prediction=r.AsTensor<string>();
+                    predicti.SetPrediction(prediction);
+                   // print("prediciton"+prediction);
                 }
             }
 
