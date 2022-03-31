@@ -9,6 +9,21 @@ using TMPro;
 using brainflow;
 using brainflow.math;
 
+
+
+/*TO DO 
+1. Arreglar el start_stream deberia arrancar cuando el juego comience o keyboard
+2. Renombrar los scripts en lugar de openbci... brainflowConnection
+3. Crear una clase que itere la cada canal y lo filtre y retorne la señal filtrada
+4. Colocar una pausa, que saque un sample un segundo, pause y que retorne a streamear *un bucle*
+
+*/
+
+
+
+
+
+
 public class openbciConnection : MonoBehaviour
 {
     private BoardShim board_shim = null;
@@ -31,6 +46,13 @@ public class openbciConnection : MonoBehaviour
 
     private bool markerStop = false; //This variable will prevent the marker to be inserted all the time (we only need one when the scene begins and another one one the scene ends)
     // Start is called before the first frame update
+
+    //number of samples
+    private int eeg_segment=250;
+
+
+
+
     void startBoard()
     {
         try
@@ -72,7 +94,7 @@ public class openbciConnection : MonoBehaviour
 
             print("FULL PATH: "+file_name);
             board_shim.prepare_session();
-            board_shim.start_stream(450000, file_name);
+            board_shim.start_stream(eeg_segment, file_name);
             //board_shim.insert_marker(1.0f);
             sampling_rate = BoardShim.get_sampling_rate(board_id);
             print("Sampling rate:"+sampling_rate);
@@ -88,6 +110,8 @@ public class openbciConnection : MonoBehaviour
 
             BoardDescr board_descr = BoardShim.get_board_descr<BoardDescr>(board_id); 
             staticPorts.board_descr = board_descr; //This object will be used in the SignalProcessing script
+
+
 
 
             
@@ -127,6 +151,7 @@ public class openbciConnection : MonoBehaviour
             //double [,] data = board_shim.get_current_board_data(number_of_data_points);
 
             SignalFiltering.unprocessed_data = board_shim.get_current_board_data(number_of_data_points);
+            
 
             //Insert ONE marker when the game starts.
             if (staticPorts.gameStarted){
