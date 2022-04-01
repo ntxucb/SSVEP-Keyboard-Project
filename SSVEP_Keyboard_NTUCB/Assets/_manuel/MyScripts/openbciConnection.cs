@@ -16,7 +16,7 @@ using brainflow.math;
 2. Renombrar los scripts en lugar de openbci... brainflowConnection
 3. Crear una clase que itere la cada canal y lo filtre y retorne la señal filtrada
 4. Colocar una pausa, que saque un sample un segundo, pause y que retorne a streamear *un bucle*
-
+5. 
 */
 
 
@@ -94,7 +94,7 @@ public class openbciConnection : MonoBehaviour
 
             print("FULL PATH: "+file_name);
             board_shim.prepare_session();
-            board_shim.start_stream(eeg_segment, file_name);
+            board_shim.start_stream(300, file_name);
             //board_shim.insert_marker(1.0f);
             sampling_rate = BoardShim.get_sampling_rate(board_id);
             print("Sampling rate:"+sampling_rate);
@@ -150,7 +150,24 @@ public class openbciConnection : MonoBehaviour
             //print(number_of_data_points);
             //double [,] data = board_shim.get_current_board_data(number_of_data_points);
 
-            SignalFiltering.unprocessed_data = board_shim.get_current_board_data(number_of_data_points);
+            //SignalFiltering.unprocessed_data = board_shim.get_current_board_data(number_of_data_points);
+            var current_raw_data=board_shim.get_current_board_data(eeg_segment);
+            
+            //brainflow_matrix_shape  is channels per time 32x100
+
+            //SignalFiltering.unprocessed_data = board_shim.get_board_data(100);
+          //  print("current data"+current_raw_data.GetLength(1));
+           print(current_raw_data.GetLength(1));
+           if(current_raw_data.GetLength(1)>eeg_segment-1){
+               print("es mayor");
+                SignalFiltering.unprocessed_data = board_shim.get_board_data();
+                print(SignalFiltering.unprocessed_data.GetLength(0)+"   --  "+SignalFiltering.unprocessed_data.GetLength(1));
+                
+
+           }
+           /* while(current_raw_data.GetLength(1)<(eeg_segment-1)){
+                print("aun bajo el limite");
+            }*/
             
 
             //Insert ONE marker when the game starts.
@@ -163,6 +180,7 @@ public class openbciConnection : MonoBehaviour
                 
                 
             }
+
 
             /*
             else if(staticPorts.gameStarted == false){
