@@ -32,14 +32,14 @@ public class pauseMenu : MonoBehaviour
 
     public void PauseGame(){
         pauseMenuGUI.SetActive(true);
-        signal_filtering.SetActive(false);
+        // signal_filtering.SetActive(false);
         Time.timeScale = 0f;
         isPaused = true;
     }
     public void ResumeGame()
     {
         pauseMenuGUI.SetActive(false);
-        signal_filtering.SetActive(true);
+        // signal_filtering.SetActive(true);
         Time.timeScale = 1f;
         isPaused = false;
     }
@@ -47,6 +47,6 @@ public class pauseMenu : MonoBehaviour
     public void BackToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("barracuda_menu");
+        SceneManager.LoadScene("ssvep_keyboard_menu");
     }
 }

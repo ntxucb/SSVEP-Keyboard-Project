@@ -8780,3 +8780,12 @@
 [2022-03-31 19:57:47.414] [board_logger] [info] incoming json: {"file":"","ip_address":"","ip_port":0,"ip_protocol":0,"mac_address":"","other_info":"","serial_number":"","serial_port":"","timeout":0}
 [2022-03-31 19:57:47.414] [board_logger] [trace] Board object created -1
 [2022-03-31 19:57:47.435] [board_logger] [trace] File Streamer, file: C:/Users/asus/Documents/GitHub/SSVEP-Keyboard-Project/SSVEP_Keyboard_NTUCB/Assets\Recordings\Subject001\001_5Hz.csv, mods: w
+[2022-04-01 00:14:19.588] [board_logger] [info] incoming json: {"file":"","ip_address":"","ip_port":0,"ip_protocol":0,"mac_address":"","other_info":"","serial_number":"","serial_port":"","timeout":0}
+[2022-04-01 00:14:19.605] [board_logger] [trace] Board object created -1
+[2022-04-01 00:14:19.624] [board_logger] [trace] File Streamer, file: D:/Unity/Projects/SSVEP-Keyboard-Project/SSVEP_Keyboard_NTUCB/Assets\Recordings\Subject001\001_5Hz.csv, mods: w
+[2022-04-01 00:17:04.363] [board_logger] [info] incoming json: {"file":"","ip_address":"","ip_port":0,"ip_protocol":0,"mac_address":"","other_info":"","serial_number":"","serial_port":"","timeout":0}
+[2022-04-01 00:17:04.363] [board_logger] [trace] Board object created -1
+[2022-04-01 00:17:04.380] [board_logger] [trace] File Streamer, file: D:/Unity/Projects/SSVEP-Keyboard-Project/SSVEP_Keyboard_NTUCB/Assets\Recordings\Subject001\001_5Hz.csv, mods: w
+[2022-04-01 00:25:08.998] [board_logger] [info] incoming json: {"file":"","ip_address":"","ip_port":0,"ip_protocol":0,"mac_address":"","other_info":"","serial_number":"","serial_port":"","timeout":0}
+[2022-04-01 00:25:08.998] [board_logger] [trace] Board object created -1
+[2022-04-01 00:25:09.018] [board_logger] [trace] File Streamer, file: D:/Unity/Projects/SSVEP-Keyboard-Project/SSVEP_Keyboard_NTUCB/Assets\Recordings\Subject001\001_5Hz.csv, mods: w
