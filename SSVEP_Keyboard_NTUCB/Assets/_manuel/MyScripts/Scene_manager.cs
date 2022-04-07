@@ -15,7 +15,7 @@ public class Scene_manager : MonoBehaviour
 
 
     public void StartGame(){
-        SceneManager.LoadScene("base_level_scene");
+        SceneManager.LoadScene("letter_number_keyboard");
         staticPorts.gameStarted = true;
     }
     public void DebugScene(){

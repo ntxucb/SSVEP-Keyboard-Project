@@ -37,6 +37,10 @@ public class KeyboardController : MonoBehaviour
         // print(key.);
         if(Input.anyKey)
         {   if(Input.GetKey(KeyCode.Return)) return;
+            // if(Input.GetKeyDown(KeyCode.Escape))
+            // {
+
+            // }
             if(Input.GetKey(KeyCode.Backspace))
             {
                 // holdTimer -= Time.deltaTime;

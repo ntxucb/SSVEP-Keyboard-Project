@@ -48,7 +48,7 @@ public class openbciConnection : MonoBehaviour
     // Start is called before the first frame update
 
     //number of samples
-    private int eeg_segment=250;
+    private int number_of_data_points = 250;
 
 
 
@@ -146,19 +146,13 @@ public class openbciConnection : MonoBehaviour
             {
                 return;
             }
-            int number_of_data_points = sampling_rate * 120;
-            //print(number_of_data_points);
-            //double [,] data = board_shim.get_current_board_data(number_of_data_points);
 
-            //SignalFiltering.unprocessed_data = board_shim.get_current_board_data(number_of_data_points);
-            var current_raw_data=board_shim.get_current_board_data(eeg_segment);
+            var current_raw_data = board_shim.get_current_board_data(number_of_data_points);
             
             //brainflow_matrix_shape  is channels per time 32x100
 
-            //SignalFiltering.unprocessed_data = board_shim.get_board_data(100);
-          //  print("current data"+current_raw_data.GetLength(1));
            print(current_raw_data.GetLength(1));
-           if(current_raw_data.GetLength(1)>eeg_segment-1){
+           if(current_raw_data.GetLength(1) > number_of_data_points-1){
                print("es mayor");
                SignalFiltering.unprocessed_data= board_shim.get_board_data();
                // SignalFiltering.unprocessed_data = board_shim.get_board_data();
@@ -272,4 +266,9 @@ public class openbciConnection : MonoBehaviour
         }
     }
     */
+
+    void m_shape()
+    {
+
+    }
 }
