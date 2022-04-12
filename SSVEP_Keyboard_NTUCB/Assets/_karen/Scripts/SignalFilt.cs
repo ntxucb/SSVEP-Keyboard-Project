@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using System;
 using TMPro;
+using System.Text;
+using System.IO;
 
 
 using brainflow;
@@ -17,6 +19,8 @@ public class SignalFilt: MonoBehaviour
         public static double[] filtered;
 
         public static String enemySelected;
+
+        
 
         //public GameObject textObject;
 
@@ -39,6 +43,8 @@ public class SignalFilt: MonoBehaviour
         public static void Metodo(double[,] unprocessed_data)
         {
              if (staticPorts.statusON == true){
+                SignalFilt signalFi = new SignalFilt();
+
                 //THIS FUNCTION WAS MAINLY TESTED WITH THE SYNTHETIC BOARD
                 print("SignalFiltering Started");
                 int board_id = staticPorts.boardIdSelected;
@@ -57,11 +63,9 @@ public class SignalFilt: MonoBehaviour
                 Tuple<double[], double[]> psd = DataFilter.get_psd_welch (detrend, nfft, nfft / 2, sampling_rate, (int)WindowFunctions.HANNING);
                 double band_power_alpha = DataFilter.get_band_power (psd, 7.0, 13.0);
                 double band_power_beta = DataFilter.get_band_power (psd, 14.0, 30.0);
-                Console.WriteLine ("Alpha/Beta Ratio:" + (band_power_alpha/ band_power_beta));
-                */
-                print("Llegue aca");
+                Console.WriteLine ("Alpha/Beta Ratio:" + (band_power_alpha/ band_power_beta));*/
+
               //  if (unprocessed_data.GetLength(1) % (staticPorts.sampling_rate*2) == 0){
-                    print("Llegue aca 2222222");
                 //print("Entering the segmentation loop");
                 //print((unprocessed_data.GetRow (eeg_channels[0]), staticPorts.sampling_rate, 15.0, 5.0, 2, (int)FilterTypes.BUTTERWORTH, 0.0));
 
@@ -77,6 +81,7 @@ public class SignalFilt: MonoBehaviour
                 float[,] filtered_EEG = new float[16, 250];
 
 
+                float[,] matrix_float=new float[16, 255];
                 print("ENTERED THE IF");
                for (int i = 0; i < eeg_channels.Length; i++){
                     print("Before processing:");
@@ -89,46 +94,50 @@ public class SignalFilt: MonoBehaviour
                    // filtered.CopyTo(filtered_EEG[i]);
                     //print("filas "+filtered_EEG.GetLength(0)+" col "+filtered_EEG.GetLength(1));
 
-                    //filtered_EEG[i]=(float)filtered;
-                    print("leeeennnnnnnnggggggg "+filtered.Length);
-                    double[,] matrix = ConvertMatrix(filtered, 1, 255);
-                    print("Prueba   "+matrix[0,0]);
-                    /*
-                    for (int f = 0; f < 1; f++)
-                    {
-                        for (int j = 0; j < 255; j++)
+                    //Creando la matriz general
+                    //-------------------
+                    if(filtered.Length==255){
+                        //filtered_EEG[i]=(float)filtered;
+
+                        print("leeeennnnnnnnggggggg "+filtered.Length);
+                        double[,] matrix = ConvertMatrix(filtered, 1, 255);
+                        print("Prueba   "+matrix[0,0]);
+                        
+                        for (int q = 0; q < 1; q++)
                         {
-                            Console.WriteLine("matrix[{0},{1}] = {2}", f, j, matrix[f, j]);
+                            for (int u = 0; u < 255; u++)
+                            {
+                                matrix_float[i, u] =(float)matrix[q, u];
+                                
+                            }
                         }
-                    }*/
 
-                    print("tipo de datooo "+filtered.GetType());
-                    print("tipo de datooo 2222"+matrix.GetType());
+                        print("tipo de datooo "+filtered.GetType());
+                        print("tipo de datooo 2222"+matrix.GetType());
 
-                    float[,] matrix_float = new float[1, 255];
+                        
+                        //Aqui se llena el csv para luego analizar los datos
+                     /*   if(i>10){
+                            signalFi.save_csv(i+"; "+ string.Join ("; ", filtered)+";0");
+                        }else{
+                            signalFi.save_csv(i+"; "+ string.Join ("; ", filtered)+";1");
+                        }*/
 
-                    for (int f = 0; f< matrix.GetLength(0); f++)
-                    {
-                        for (int j = 0; j < matrix.GetLength(1); j++)
-                        {
-                            matrix_float[f, j] = (float)matrix[f, j];
-                        }
+                      
+
+
+                        print ("Filtered channel " + eeg_channels[i]);
+                        print ("[{0}]"+ string.Join ("; ", filtered));  
+
+
+
+
                     }
-                    print("tipo de datooo matrix float"+matrix_float.GetType());
-                    print("dato de la matrix "+matrix_float[0,0]);
-                  /* for (int f = 0; f < filtered.Length; f++)
-                    {
-                        for (int j = 0; j < filtered[f].Length; j++)
-                        {
-                            filtered_EEG[f,j] = filtered[f, j];
-                        }
-                    }*/
-                    print ("Filtered channel " + eeg_channels[i]);
-                    print ("[{0}]"+ string.Join (", ", filtered));  
-
-
-
                 }
+                //Prediccion
+                string output_salida=OnnxInference.predict(matrix_float);
+                print("--------------------"+output_salida+"------------");
+
          
 
 
@@ -140,14 +149,30 @@ public class SignalFilt: MonoBehaviour
 
         static double[,] ConvertMatrix(double[] flat, int m, int n)
         {
-        if (flat.Length != m * n)
-        {
-            throw new ArgumentException("Invalid length");
+            if (flat.Length != m * n)
+            {
+                throw new ArgumentException("Invalid length");
+            }
+            double[,] ret = new double[m, n];
+            // BlockCopy uses byte lengths: a double is 8 bytes
+            Buffer.BlockCopy(flat, 0, ret, 0, flat.Length * sizeof(double));
+            return ret;
         }
-        double[,] ret = new double[m, n];
-        // BlockCopy uses byte lengths: a double is 8 bytes
-        Buffer.BlockCopy(flat, 0, ret, 0, flat.Length * sizeof(double));
-        return ret;
+
+
+        void save_csv(string dato){
+            string path="Assets/_karen/CSV/canales.csv";
+            
+            StringBuilder salida=new StringBuilder();
+
+            List<string> lista=new List<string>();
+            lista.Add(dato);
+
+            for(int i=0; i<lista.Count; i++)
+            {
+                salida.AppendLine(string.Join("//////////",lista[i]));
+                File.AppendAllText(path,salida.ToString());
+            }
         }
     }
 

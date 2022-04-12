@@ -153,9 +153,9 @@ public class openbciConnection : MonoBehaviour
 
            print(current_raw_data.GetLength(1));
            if(current_raw_data.GetLength(1) > number_of_data_points-1){
-               print("es mayor");
-               SignalFiltering.unprocessed_data= board_shim.get_board_data();
-               // SignalFiltering.unprocessed_data = board_shim.get_board_data();
+                print("es mayor");
+                SignalFiltering.unprocessed_data= board_shim.get_board_data();
+                // SignalFiltering.unprocessed_data = board_shim.get_board_data();
                 print(SignalFiltering.unprocessed_data.GetLength(0)+"   --  "+SignalFiltering.unprocessed_data.GetLength(1));
                 SignalFilt.Metodo(SignalFiltering.unprocessed_data);
 

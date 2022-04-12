@@ -49,26 +49,7 @@ public class OnnxInference : MonoBehaviour
        // t1= new DenseTensor<float>(new[] { 4, 8 });
         
     
-       /* t1= new DenseTensor<float>(new[] {2,8});
-        //matriz=new float[1,8];
-        for (int i = 1; i<= 1; i++)
-            {
-                for (int j = 1; j < 375; j++)
-                {
-                    t1[i, j] = 2.3f;
-                }
-            }
-        print(t1);
-
-        for (int i = 1; i<= 1; i++)
-            {
-                for (int j = 1; j < 375; j++)
-                {
-                    print(t1[i, j]);
-                }
-            }
-        
-
+       /* 
         //t1 = new DenseTensor<float>(sourceData, dimensions);
         t2 = new DenseTensor<float>(sourceData, dimensions);
         //Tensor<float> t1 = new DenseTensor<float>(sourceData, dimensions);
@@ -146,21 +127,6 @@ public class OnnxInference : MonoBehaviour
                 }
             }
 
-
-            //IDisposableReadOnlyCollection<DisposableNamedOnnxValue> Run(IReadOnlyCollection<NamedOnnxValue> inputs, IReadOnlyCollection<string> desiredOutputNodes);
-           /* var results = session.Run(inputs1); //IDisposableReadOnlyCollection<DisposableNamedOnnxValue> 
-            // dump the results
-            var inferenceResult = results.ToList()[0];
-            
-            var inferenceResult_Value = inferenceResult.Value;
-            print(inferenceResult_Value);
-            var Output = session.Run(inputs1).ToList().First().AsEnumerable<NamedOnnxValue>();
-            print(Output+"es el output");
-            //second
-            print(results.ToList()[0]);
-            //se debe convertir -- <string> -->esto depende de la salida, si la salida es long entonces sera long
-            var Test = results.ToList()[0].AsTensor<string>().ToArray<string>()[0].ToString();
-            print(Test);*/
         }catch (Exception e){
             print("error"+e);
         }
@@ -173,4 +139,43 @@ public class OnnxInference : MonoBehaviour
     {
         
     }
+
+    public static string predict(float[,] Predict_input)
+        {
+            string path = "Assets/_karen/Models/canales_onnx.onnx";
+            InferenceSession session = new InferenceSession(path);
+            DenseTensor<float> T1;
+
+            string output_string="";
+
+            T1 = Predict_input.ToTensor();
+            var inputMeta = session.InputMetadata;
+            var outputMeta = session.OutputMetadata;
+
+            var inputs1 = new List<NamedOnnxValue>();
+
+            foreach (var name in inputMeta.Keys)
+            {
+                print("entre");
+                print(name);
+                inputs1.Add(NamedOnnxValue.CreateFromTensor<float>(name, T1));
+            }
+            try
+            {
+                using(var results = session.Run(inputs1)){
+                    foreach(var r in results){
+                        //.GetValue(0)
+                        Tensor<int> prediction=r.AsTensor<int>();
+                        foreach(var t in prediction){
+                        print("pred "+t);            }
+                    // print("prediciton"+prediction);
+                    }
+                }
+            output_string="Prediccion correcta";
+            }catch (Exception e){
+                print("error"+e);
+                output_string="error";
+            }
+            return output_string;
+        }
 }
