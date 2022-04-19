@@ -142,7 +142,7 @@ public class OnnxInference : MonoBehaviour
 
     public static string predict(float[,] Predict_input)
         {
-            string path = "Assets/_karen/Models/canales_onnx.onnx";
+            string path = "Assets/_karen/Models/knnn.onnx";
             InferenceSession session = new InferenceSession(path);
             DenseTensor<float> T1;
 
@@ -165,9 +165,10 @@ public class OnnxInference : MonoBehaviour
                 using(var results = session.Run(inputs1)){
                     foreach(var r in results){
                         //.GetValue(0)
-                        Tensor<int> prediction=r.AsTensor<int>();
+                        Tensor<string> prediction=r.AsTensor<string>();
                         foreach(var t in prediction){
-                        print("pred "+t);            }
+                            print("pred "+t);            
+                        }
                     // print("prediciton"+prediction);
                     }
                 }

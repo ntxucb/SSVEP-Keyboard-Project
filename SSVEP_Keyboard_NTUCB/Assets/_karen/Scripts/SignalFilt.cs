@@ -81,7 +81,7 @@ public class SignalFilt: MonoBehaviour
                 float[,] filtered_EEG = new float[16, 250];
 
 
-                float[,] matrix_float=new float[16, 255];
+                float[,] matrix_float=new float[16, 375];
                 print("ENTERED THE IF");
                for (int i = 0; i < eeg_channels.Length; i++){
                     print("Before processing:");
@@ -96,16 +96,18 @@ public class SignalFilt: MonoBehaviour
 
                     //Creando la matriz general
                     //-------------------
-                    if(filtered.Length==255){
+                    print("leeeennnnnnnnggggggg "+filtered.Length);
+                    
+                    if(filtered.Length==375){
                         //filtered_EEG[i]=(float)filtered;
 
                         print("leeeennnnnnnnggggggg "+filtered.Length);
-                        double[,] matrix = ConvertMatrix(filtered, 1, 255);
+                        double[,] matrix = ConvertMatrix(filtered, 1, 375);
                         print("Prueba   "+matrix[0,0]);
                         
                         for (int q = 0; q < 1; q++)
                         {
-                            for (int u = 0; u < 255; u++)
+                            for (int u = 0; u < 375; u++)
                             {
                                 matrix_float[i, u] =(float)matrix[q, u];
                                 

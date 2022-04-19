@@ -48,7 +48,7 @@ public class openbciConnection : MonoBehaviour
     // Start is called before the first frame update
 
     //number of samples
-    private int number_of_data_points = 250;
+    private int number_of_data_points = 375;
 
 
 
@@ -94,7 +94,7 @@ public class openbciConnection : MonoBehaviour
 
             print("FULL PATH: "+file_name);
             board_shim.prepare_session();
-            board_shim.start_stream(300, file_name);
+            board_shim.start_stream(376, file_name);
             //board_shim.insert_marker(1.0f);
             sampling_rate = BoardShim.get_sampling_rate(board_id);
             print("Sampling rate:"+sampling_rate);
