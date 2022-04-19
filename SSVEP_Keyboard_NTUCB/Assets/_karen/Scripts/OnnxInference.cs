@@ -167,6 +167,7 @@ public class OnnxInference : MonoBehaviour
                         //.GetValue(0)
                         Tensor<string> prediction=r.AsTensor<string>();
                         foreach(var t in prediction){
+                            //Prediction is done here
                             print("pred "+t);            
                         }
                     // print("prediciton"+prediction);

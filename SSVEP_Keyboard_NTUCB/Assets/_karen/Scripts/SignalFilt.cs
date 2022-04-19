@@ -103,7 +103,7 @@ public class SignalFilt: MonoBehaviour
 
                         print("leeeennnnnnnnggggggg "+filtered.Length);
                         double[,] matrix = ConvertMatrix(filtered, 1, 375);
-                        print("Prueba   "+matrix[0,0]);
+                        print("Prueba   " + matrix[0,0]);
                         
                         for (int q = 0; q < 1; q++)
                         {
@@ -114,8 +114,8 @@ public class SignalFilt: MonoBehaviour
                             }
                         }
 
-                        print("tipo de datooo "+filtered.GetType());
-                        print("tipo de datooo 2222"+matrix.GetType());
+                        print("tipo de datooo " + filtered.GetType());
+                        print("tipo de datooo 2222" + matrix.GetType());
 
                         
                         //Aqui se llena el csv para luego analizar los datos
@@ -137,7 +137,7 @@ public class SignalFilt: MonoBehaviour
                     }
                 }
                 //Prediccion
-                string output_salida=OnnxInference.predict(matrix_float);
+                string output_salida = OnnxInference.predict(matrix_float);
                 print("--------------------"+output_salida+"------------");
 
          

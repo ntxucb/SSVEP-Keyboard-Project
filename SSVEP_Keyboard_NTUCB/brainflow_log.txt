@@ -8854,3 +8854,6 @@
 [2022-04-12 14:58:35.708] [board_logger] [info] incoming json: {"file":"","ip_address":"","ip_port":0,"ip_protocol":0,"mac_address":"","other_info":"","serial_number":"","serial_port":"","timeout":0}
 [2022-04-12 14:58:35.708] [board_logger] [trace] Board object created -1
 [2022-04-12 14:58:35.728] [board_logger] [trace] File Streamer, file: C:/Users/asus/Documents/GitHub/SSVEP-Keyboard-Project/SSVEP_Keyboard_NTUCB/Assets\Recordings\Subject001\001_5Hz.csv, mods: w
+[2022-04-18 22:25:56.635] [board_logger] [info] incoming json: {"file":"","ip_address":"","ip_port":0,"ip_protocol":0,"mac_address":"","other_info":"","serial_number":"","serial_port":"","timeout":0}
+[2022-04-18 22:25:56.635] [board_logger] [trace] Board object created -1
+[2022-04-18 22:25:56.652] [board_logger] [trace] File Streamer, file: D:/Unity/Projects/SSVEP-Keyboard-Project/SSVEP_Keyboard_NTUCB/Assets\Recordings\Subject001\001_5Hz.csv, mods: w
