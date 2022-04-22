@@ -26,6 +26,10 @@ using brainflow.math;
 
 public class openbciConnection : MonoBehaviour
 {
+
+    public List<string> predicted;
+
+
     private BoardShim board_shim = null;
     private int sampling_rate = 0;
 
@@ -150,14 +154,17 @@ public class openbciConnection : MonoBehaviour
             var current_raw_data = board_shim.get_current_board_data(number_of_data_points);
             
             //brainflow_matrix_shape  is channels per time 32x100
-
-           print(current_raw_data.GetLength(1));
            if(current_raw_data.GetLength(1) > number_of_data_points-1){
-                print("es mayor");
+                print("current_raw_data es del mismo tamaño que number_of_data_points");
                 SignalFiltering.unprocessed_data= board_shim.get_board_data();
                 // SignalFiltering.unprocessed_data = board_shim.get_board_data();
-                print(SignalFiltering.unprocessed_data.GetLength(0)+"   --  "+SignalFiltering.unprocessed_data.GetLength(1));
-                SignalFilt.Metodo(SignalFiltering.unprocessed_data);
+               //print(SignalFiltering.unprocessed_data.GetLength(0)+"   --  "+SignalFiltering.unprocessed_data.GetLength(1));
+                var output = SignalFilt.Metodo(SignalFiltering.unprocessed_data);
+                predicted = new List<string>();
+                 foreach(var t in output) {
+                    predicted.Add(t);
+                    
+                }
 
                 
 

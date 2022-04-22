@@ -40,8 +40,9 @@ public class SignalFilt: MonoBehaviour
             
         
         }
-        public static void Metodo(double[,] unprocessed_data)
+        public static List<string> Metodo(double[,] unprocessed_data)
         {
+             var output = new List<string>();
              if (staticPorts.statusON == true){
                 SignalFilt signalFi = new SignalFilt();
 
@@ -84,8 +85,6 @@ public class SignalFilt: MonoBehaviour
                 float[,] matrix_float=new float[16, 375];
                 print("ENTERED THE IF");
                for (int i = 0; i < eeg_channels.Length; i++){
-                    print("Before processing:");
-                    print("[{0}] "+string.Join (", ", unprocessed_data.GetRow (eeg_channels[i])));
                     //frecuencia de 3 a 100 es 97
                     filtered = DataFilter.perform_bandpass (unprocessed_data.GetRow (eeg_channels[i]), BoardShim.get_sampling_rate (board_id), 15.0, 97.0, 2, (int)FilterTypes.BUTTERWORTH, 0.0);
                     //frecuencia de 50Hz
@@ -96,15 +95,13 @@ public class SignalFilt: MonoBehaviour
 
                     //Creando la matriz general
                     //-------------------
-                    print("leeeennnnnnnnggggggg "+filtered.Length);
                     
                     if(filtered.Length==375){
-                        //filtered_EEG[i]=(float)filtered;
-
-                        print("leeeennnnnnnnggggggg "+filtered.Length);
+                   
+                        //Convirtiendo el array float a matriz
                         double[,] matrix = ConvertMatrix(filtered, 1, 375);
-                        print("Prueba   "+matrix[0,0]);
                         
+                        //Convirtiendo matriz double a float
                         for (int q = 0; q < 1; q++)
                         {
                             for (int u = 0; u < 375; u++)
@@ -113,40 +110,19 @@ public class SignalFilt: MonoBehaviour
                                 
                             }
                         }
-
-                        print("tipo de datooo "+filtered.GetType());
-                        print("tipo de datooo 2222"+matrix.GetType());
-
-                        
-                        //Aqui se llena el csv para luego analizar los datos
-                     /*   if(i>10){
-                            signalFi.save_csv(i+"; "+ string.Join ("; ", filtered)+";0");
-                        }else{
-                            signalFi.save_csv(i+"; "+ string.Join ("; ", filtered)+";1");
-                        }*/
-
-                      
-
-
-                        print ("Filtered channel " + eeg_channels[i]);
-                        print ("[{0}]"+ string.Join ("; ", filtered));  
-
-
-
-
                     }
                 }
                 //Prediccion
-                string output_salida=OnnxInference.predict(matrix_float);
-                print("--------------------"+output_salida+"------------");
-
-         
+                //OnnxInference onnxInference=new OnnxInference();
+                output=OnnxInference.predict(matrix_float);
 
 
                // unprocessed_data = empty_data;
          //   }
 
+                
             }  
+            return output;
         }
 
         static double[,] ConvertMatrix(double[] flat, int m, int n)
