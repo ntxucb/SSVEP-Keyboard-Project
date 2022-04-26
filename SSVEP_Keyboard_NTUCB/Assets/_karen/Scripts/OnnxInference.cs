@@ -50,47 +50,6 @@ public class OnnxInference : MonoBehaviour
     //var denseTensor = new DenseTensor<int>(new[] { 3, 5 });
     async void Start()
     {
-   
-        /*string path = "Assets/_karen/Models/knnn.onnx";
-        InferenceSession session = new InferenceSession(path);
-        DenseTensor<float> T1;
-
-        float[,] Predict_input = new float[3,375];  
-        for (int i = 1; i< 3; i++)
-            {
-                for (int j = 1; j < 375; j++)
-                {
-                    Predict_input[i, j] = 2.3f;
-                }
-            }
-
-
-        T1 = Predict_input.ToTensor();
-        var inputMeta = session.InputMetadata;
-        var outputMeta = session.OutputMetadata;
-
-        var inputs1 = new List<NamedOnnxValue>();
-
-        foreach (var name in inputMeta.Keys)
-        {
-            print("entre");
-            print(name);
-            inputs1.Add(NamedOnnxValue.CreateFromTensor<float>(name, T1));
-        }
-        try
-        {
-            using(var results = session.Run(inputs1)){
-                foreach(var r in results){
-                    //.GetValue(0)
-                    Tensor<string> prediction=r.AsTensor<string>();
-                  //  predicti.SetPrediction(prediction);
-                   // print("prediciton"+prediction);
-                }
-            }
-
-        }catch (Exception e){
-            print("error"+e);
-        }*/
         
         
     }
@@ -126,18 +85,15 @@ public class OnnxInference : MonoBehaviour
             {
                 using(var results = session.Run(inputs1)){
                     //Revisando la prediccion
-                    foreach(var r in results){
-                        //.GetValue(0)
-                        Tensor<string> prediction=r.AsTensor<string>();
+                    var r = results.First();
+                    Tensor<string> prediction=r.AsTensor<string>();
                         
                          foreach(var t in prediction){
                             //print("pred "+t);
                             output_variable.Add(t);
                         }
-                        //predicti.SetPrediction(prediction);
-                        
-                    // print("prediciton"+prediction);
-                    }
+
+                 
                 }
   
             }catch (Exception e){
