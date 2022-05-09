@@ -37,6 +37,13 @@ public class openbciConnection : MonoBehaviour
     
     public GameObject disconnect_btn;
 
+
+
+    //Saber si se presiono el boton de start Keyboard
+    public Button start_btn;
+    private bool flag_button =false;
+
+
     //poner referencias al subject y session
     public TMP_InputField subject;
     private string str_subject;
@@ -138,6 +145,7 @@ public class openbciConnection : MonoBehaviour
         //Why this toggle?
         
         
+
         if(staticPorts.connect == true){
             startBoard();
             staticPorts.connect = false;
@@ -151,10 +159,13 @@ public class openbciConnection : MonoBehaviour
                 return;
             }
 
+            // adding a delegate with no parameters
+            start_btn.onClick.AddListener(NoParamaterOnclick);
+
             var current_raw_data = board_shim.get_current_board_data(number_of_data_points);
             
             //brainflow_matrix_shape  is channels per time 32x100
-           if(current_raw_data.GetLength(1) > number_of_data_points-1){
+           if((current_raw_data.GetLength(1) > number_of_data_points-1) && flag_button==true){
                 print("current_raw_data es del mismo tamaño que number_of_data_points");
                 SignalFiltering.unprocessed_data= board_shim.get_board_data();
                 // SignalFiltering.unprocessed_data = board_shim.get_board_data();
@@ -273,6 +284,12 @@ public class openbciConnection : MonoBehaviour
         }
     }
     */
+    /*Verificando si se activo el boton de True*/
+    private void NoParamaterOnclick()
+    {
+        flag_button=true;
+    }
+
 
     void m_shape()
     {
