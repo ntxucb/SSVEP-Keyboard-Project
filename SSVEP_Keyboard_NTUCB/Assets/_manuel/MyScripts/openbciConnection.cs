@@ -61,7 +61,9 @@ public class openbciConnection : MonoBehaviour
     //number of samples
     private int number_of_data_points = 375;
 
-
+    //Counter for yes/no 
+    private int count = -1;
+    public float countdown = 3.2f;
 
 
     void startBoard()
@@ -106,6 +108,10 @@ public class openbciConnection : MonoBehaviour
             print("FULL PATH: "+file_name);
             board_shim.prepare_session();
             board_shim.start_stream(376, file_name);
+            System.Threading.Thread.Sleep (1000);
+
+           
+
             //board_shim.insert_marker(1.0f);
             sampling_rate = BoardShim.get_sampling_rate(board_id);
             print("Sampling rate:"+sampling_rate);
@@ -159,6 +165,29 @@ public class openbciConnection : MonoBehaviour
                 return;
             }
 
+            //First flag about the initialization 
+            if(count==-1){
+                board_shim.insert_marker(99);
+                count = 0;
+            }
+
+            //every 3 seg or 750
+            /*count = count + 1;
+            if(count==750){
+                count = 0;
+            }*/
+
+            countdown -= Time.deltaTime;
+            if(countdown <=0.1f){
+                board_shim.insert_marker(UnityEngine.Random.Range(1, 3));
+                countdown = 3.0f;
+            }
+
+
+            
+            
+            //board_shim.insert_marker(2.0f);
+           // board_shim.insert_marker(3.0f);
             // adding a delegate with no parameters
             start_btn.onClick.AddListener(NoParamaterOnclick);
 
@@ -225,6 +254,8 @@ public class openbciConnection : MonoBehaviour
             */
             
         }
+        
+        
         /*
         if (connect_btn == null){
             connect_btn = GameObject.FindWithTag("connect_btn");

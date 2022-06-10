@@ -18,6 +18,10 @@ public class Scene_manager : MonoBehaviour
         SceneManager.LoadScene("letter_number_keyboard");
         staticPorts.gameStarted = true;
     }
+    public void StartY_N(){
+        SceneManager.LoadScene("letter_yes_no_keyboard");
+        staticPorts.gameStarted = true;
+    }
     public void DebugScene(){
         SceneManager.LoadScene("SSVEPDebugTool");
     }

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_manuel/MyScenes/letter_number_keyboard.unity
     guid: fa03662550328224693dc0c57fd41040
+  - enabled: 1
+    path: Assets/_manuel/MyScenes/letter_yes_no_keyboard.unity
+    guid: 2f2a4084f3efd9a439b5d119b527ef73
   m_configObjects: {}
